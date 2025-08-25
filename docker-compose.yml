@@ -11,6 +11,15 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  mcp-atlassian:
+    image: ghcr.io/sooperset/mcp-atlassian:latest
+    container_name: mcp-atlassian
+    env_file:
+      - ./adk-app/.env
+    ports:
+      - "9000:9000"
+    command: ["--transport", "streamable-http", "--port", "9000", "-vv"]
+
 volumes:
   postgres_data:
     driver: local
