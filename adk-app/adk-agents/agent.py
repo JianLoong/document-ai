@@ -1,7 +1,10 @@
 from google.adk.agents import LlmAgent
 
+from .tools.confluence import get_contents_search_term
+
 
 import datetime
+
 
 today = datetime.date.today().strftime("%B %d, %Y")
 instruction = f"""
@@ -42,6 +45,8 @@ You are Schemes Mandate Analyzer, an AI agent specialized in reading, processing
    - If a query involves comparing multiple documents (e.g., Visa vs. Mastercard mandates), request all relevant documents and analyze only the provided content.
    - If asked about updates to Visa mandates, state: “This analysis is based on the provided document. For the latest Visa rules, refer to visa.com.”
 
+6. Please also utilise your tools to search for relevant information in the Confluence knowledge base if needed.
+
 **Example Interaction**:
 User: “What are the merchant requirements for accepting Visa contactless payments from this document: [paste document text]?”
 Response:  
@@ -64,5 +69,5 @@ root_agent = LlmAgent(
     model="gemini-2.0-flash",
     name="schemes_mandate_agent",
     instruction=instruction,
-    tools=[],
+    tools=[get_contents_search_term],
 )
