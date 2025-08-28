@@ -1,8 +1,9 @@
 from google.adk.agents import LlmAgent
+from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
+from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
+from mcp import StdioServerParameters
 
-from .tools.confluence import get_contents_search_term
-
-
+import os
 import datetime
 
 
@@ -65,9 +66,18 @@ This analysis is based on the document provided as of {today}. Verify with offic
 If you provide a specific Visa payment processing mandate document, I can tailor a response using this prompt. Would you like to share a document or a specific query about Visa payment processing mandates?
 """
 
+confluence_tool = MCPToolset(
+    connection_params=StdioConnectionParams(
+        server_params=StdioServerParameters(
+            command="fastmcp",
+            args=["run", "./mcp/server.py", "--no-banner"],
+        ),
+    )
+)
+
 root_agent = LlmAgent(
     model="gemini-2.0-flash",
     name="schemes_mandate_agent",
     instruction=instruction,
-    tools=[get_contents_search_term],
+    tools=[confluence_tool],
 )
