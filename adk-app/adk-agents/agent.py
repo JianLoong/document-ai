@@ -71,6 +71,10 @@ confluence_tool = MCPToolset(
         server_params=StdioServerParameters(
             command="fastmcp",
             args=["run", "./mcp/server.py", "--no-banner"],
+            env={
+                "CONFLUENCE_API_KEY": os.getenv("CONFLUENCE_API_KEY"),
+                "CONFLUENCE_BASE_URL": os.getenv("CONFLUENCE_BASE_URL"),
+            },  # Example environment variables
         ),
     )
 )
