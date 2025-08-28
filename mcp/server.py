@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from fastmcp import FastMCP
 import urllib3
 
-load_dotenv()
+# load_dotenv()
 
 mcp = FastMCP("Confluence MCP")
 
